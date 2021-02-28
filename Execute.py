@@ -6,7 +6,7 @@ import time as tm
 
 start_time = tm.time()
 # YIELD CURVE
-yield_curve = pd.read_excel(r"data/yield_curve_2019.xlsx")
+yield_curve = pd.read_excel(INSERT FILE PATH FOR YIELD CURVE)
 
 curve = yield_curve.iloc[:, 1:].to_numpy()
 dates = yield_curve.iloc[:, 0]
@@ -37,8 +37,8 @@ total_time = end_time - start_time
 first_run = mid_time - start_time
 end_run = end_time - mid_time
 
-# PROYECCIONES
-projections = pd.read_excel(r'data/proyecciones.xlsx')
+# CASH FLOWS
+projections = pd.read_excel(INSERT FILE PATH FOR CASH FLOWS)
 j = projections.loc[:, ['especie', 'fecha_pago', 'flow']].groupby(['especie'])
 
 p_array = [(i, np.array(list(df.loc[:, ['fecha_pago', 'flow']
@@ -46,14 +46,14 @@ p_array = [(i, np.array(list(df.loc[:, ['fecha_pago', 'flow']
 
 especies_proyecciones = dict(p_array)
 
-# PRECIOS DE MERCADO
-base = pd.read_excel(r'data\Unificada_2019_mid.xlsx',
+# MARKET PRICES
+base = pd.read_excel(INSERT FILE PATH FOR MARKET PRICES,
                      sheet_name='mid_price').set_index('date')
 prices = base.to_dict('index')
 prices_list = list(prices.items())
 subset = prices_list
 
-# ESTIMACION
+# ESTIMATION
 in_val = [.2, .2, .60]
 
 h = pm.calcula_params(especies_proyecciones,
@@ -62,7 +62,7 @@ h = pm.calcula_params(especies_proyecciones,
                       optimizer="Andritzky",
                       initial_values=in_val)
 
-# DATAFRAME Y GUARDADO
+# OUTPUT AND SAVING
 cols = ['date', 'alpha', 'beta', 'recovery', 'fun']
 df = pd.DataFrame(h, columns=cols).set_index('date')
-df.to_excel(r'data/resultados_merrick_2019_midprices.xlsx')
+df.to_excel(INSERT PATH FOR OUTPUT)
