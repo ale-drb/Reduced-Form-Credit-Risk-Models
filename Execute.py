@@ -54,7 +54,7 @@ prices_list = list(prices.items())
 subset = prices_list
 
 # ESTIMATION
-in_val = [.2, .2, .60]
+in_val = [1, 2, .60]
 
 h = pm.calcula_params(especies_proyecciones,
                       subset,
