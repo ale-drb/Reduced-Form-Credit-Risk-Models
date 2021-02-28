@@ -35,8 +35,6 @@ class MerrickOptimizer:
     def optimize(self):
 
         def npv(p, price, pagos):
-            # rf = .01
-
             diff = price - sum(exp(- p[0]*t - p[1] * (1 - exp(-t))) * f *
                                exp(-self.interpola_tasa(t) * t)
                                + (exp(- p[0] * (t - .5) - p[1] *
@@ -54,14 +52,12 @@ class MerrickOptimizer:
         bnds = ((None, None), (None, None), (0, None))
 
         def constraint_1(p):
-
             n = float(len(self._bonds_list))
 
             return sum(npv(p, e._price, e.gen_pagos())
                        for e in self._bonds_list)/n
 
         def constraint_2(p):
-
             delta = p[0] + p[1] * (1 - exp(-10))/10
 
             return 1 - exp(- 10 * delta)
@@ -109,7 +105,6 @@ class AndritzkyOptimizer:
         return prev[1] + (plazo_obj - prev[0]) / diff_plazo * diff_tasa
 
     def optimize(self):
-
         def npv(p, price, pagos):
             # rf = .01
 
